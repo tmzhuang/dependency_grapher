@@ -8,10 +8,6 @@ module DependencyGrapher
 			@controllers = classes_in("controllers")
 			@models = classes_in("models")
 			@services = classes_in("services")
-
-			p @controllers
-			p @models
-			p @services
 		end
 
 
@@ -23,6 +19,12 @@ module DependencyGrapher
 			Dir.glob("app/#{folder}/*.rb").map do |file|
 				result << file[/app\/#{folder}\/(.*)\.rb/, 1].camelize
 			end
+		end
+
+		def apply_filter(*filters) 
+		end
+
+		def remove_filter(*filters)
 		end
 
 		def graph
