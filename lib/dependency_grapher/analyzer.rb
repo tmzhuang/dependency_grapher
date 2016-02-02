@@ -1,4 +1,4 @@
-module RailsDependencyGrapher
+module DependencyGrapher
 	class Analyzer
 		def initialize(dependencies, clusters)
 			@dependencies = dependencies

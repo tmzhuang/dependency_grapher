@@ -1,4 +1,4 @@
-module RailsDependencyGrapher
+module DependencyGrapher
 	class Grapher
 	end
 end

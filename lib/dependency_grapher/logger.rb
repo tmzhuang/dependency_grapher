@@ -1,4 +1,4 @@
-module RubyDependencyGrapher
+module DependencyGrapher
 	class Logger
 		attr_reader :dependencies, :clusters
 
