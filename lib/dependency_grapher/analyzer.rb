@@ -1,4 +1,5 @@
 module DependencyGrapher
+	require 'graphviz'
 	class Analyzer
 		def initialize(dependencies, clusters)
 			@dependencies = dependencies
