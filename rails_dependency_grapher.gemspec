@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'rails_dependency_grapher/version'
+require 'dependency_grapher/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "rails_dependency_grapher"
-  spec.version       = RailsDependencyGrapher::VERSION
+  spec.name          = "dependency_grapher"
+  spec.version       = DependencyGrapher::VERSION
   spec.authors       = ["tmzhuang"]
   spec.email         = ["abstract.wolf@gmail.com"]
 
-  spec.summary       = %q{Graphical vizualization of Ruby on Rails application dependencies.}
-  spec.description   = %q{For Rails applications that use minitest as the automated test framework. This gem provides a class for logging the dependencies of the application while the test runs, and another for analyzing those dependencies and producing a graph.}
-  spec.homepage      = "https://github.com/tmzhuang/rails_dependency_grapher"
+  spec.summary       = %q{Graphical vizualization of Ruby application dependencies.}
+  spec.description   = %q{For Ruby applications that use minitest as the automated test framework. This gem provides a class for logging the dependencies of the application while the test runs, and another for analyzing those dependencies and producing a graph.}
+  spec.homepage      = "https://github.com/tmzhuang/dependency_grapher"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
