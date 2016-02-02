@@ -4,6 +4,25 @@ module DependencyGrapher
 		def initialize(dependencies, clusters)
 			@dependencies = dependencies
 			@clusters = clusters
+
+			@controllers = classes_in("controllers")
+			@models = classes_in("models")
+			@services = classes_in("services")
+
+			p @controllers
+			p @models
+			p @services
+		end
+
+
+		# Returns an array of class names in folder specified by argument. Since we are dealing 
+		# with a Rails app, folder is expected to be in app/. For example, if folder is specified
+		# to be 'models', then classes in 'app/models/' will be returned.
+		def classes_in(folder)
+			result = []
+			Dir.glob("app/#{folder}/*.rb").map do |file|
+				result << file[/app\/#{folder}\/(.*)\.rb/, 1].camelize
+			end
 		end
 
 		def graph
