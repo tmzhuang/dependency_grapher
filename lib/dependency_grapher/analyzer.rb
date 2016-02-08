@@ -10,11 +10,6 @@ module DependencyGrapher
 			@services = classes_in("services")
 		end
 
-
-		# Returns an array of class names in folder specified by argument. Since we are dealing 
-		end
-
-
 		# Returns an array of class names in folder specified by argument. Since we are dealing 
 		# with a Rails app, folder is expected to be in app/. For example, if folder is specified
 		# to be 'models', then classes in 'app/models/' will be returned.
