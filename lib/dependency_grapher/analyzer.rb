@@ -11,7 +11,7 @@ module DependencyGrapher
 
       # Add default filters
       if filters.empty?
-        add_filters(:interclass, :rails)
+        @filters = Set.new [:interclass, :rails]
         # Otherwise, add provided filters
       else
         add_filters(filters)
