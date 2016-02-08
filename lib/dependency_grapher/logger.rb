@@ -1,10 +1,8 @@
 module DependencyGrapher
 	class Logger
-		attr_reader :dependencies, :clusters
+		attr_reader :dependencies 
 
 		def initialize
-			# Set of all known clases 
-			@clusters ||= Set.new
 			# Set of all inter-class method calls
 			@dependencies ||= Set.new
 		end
@@ -15,24 +13,20 @@ module DependencyGrapher
 				case tp.event
 					# Push calls onto stack
 				when :call
-					item = {
-						class: tp.defined_class, 
-						method: tp.method_id }
-					@call_stack << item
+					call = { class: tp.defined_class, method: tp.method_id }
+					@call_stack << call
 					# When function returns, add dependency to 
 					# @dependencies as the current returning method
 					# with the last item on the stack
 				when :return
-					my_callee = @call_stack.pop
-					my_caller = @call_stack[-1]
+					caller = @call_stack[-1]
+					receiver = @call_stack.pop
 					# my_caller should be nil when returning from main,
 					# so ignore that. Otherwise, we also don't care about
 					# dependencies within classes
-					if my_caller != nil and my_caller[:class] != my_callee[:class]
-						dependency = {my_caller => my_callee}
+					if caller
+						dependency = { caller: caller, receiver: receiver }
 						@dependencies << dependency
-						@clusters << my_caller[:class]
-						@clusters << my_callee[:class]
 					end
 				end
 			end

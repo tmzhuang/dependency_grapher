@@ -12,6 +12,10 @@ module DependencyGrapher
 
 
 		# Returns an array of class names in folder specified by argument. Since we are dealing 
+		end
+
+
+		# Returns an array of class names in folder specified by argument. Since we are dealing 
 		# with a Rails app, folder is expected to be in app/. For example, if folder is specified
 		# to be 'models', then classes in 'app/models/' will be returned.
 		def classes_in(folder)
@@ -21,10 +25,24 @@ module DependencyGrapher
 			end
 		end
 
-		def apply_filter(*filters) 
+		def apply_filter(*filters)
+			if filters.size > 1
+				filters.map(&:apply_filter)
+				filters.each do |filter|
+					apply_filter(filter)
+				end
+			else
+				case filters.first
+				when :interclass
+				when :rails
+				end
+			end
+		end
+		
+		def remove_filter(*filters)
 		end
 
-		def remove_filter(*filters)
+		def calc_filter_set(filter)
 		end
 
 		def graph
