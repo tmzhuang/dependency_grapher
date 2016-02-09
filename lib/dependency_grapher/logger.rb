@@ -13,9 +13,9 @@ module DependencyGrapher
 				case tp.event
 				when :call
 					# Push calls onto stack
-          theclass = tp.defined_class
-          themethodid = tp.method_id
-          method = DependencyGrapher::Method.new(theclass, themethodid)
+          #theclass = tp.defined_class
+          #themethodid = tp.method_id
+          DependencyGrapher::Method.new("a", "b")
 					#@call_stack << DependencyGrapher::Method.new(tp.defined_class, tp.method_id) 
 					@call_stack << method
 				when :return
