@@ -1,6 +1,6 @@
 module DependencyGrapher
-  require "./method"
-  require "./dependency"
+  require_relative "method"
+  require_relative "dependency"
 	class Logger
 		attr_reader :dependencies 
 
