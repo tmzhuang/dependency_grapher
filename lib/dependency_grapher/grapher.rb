@@ -53,7 +53,7 @@ module DependencyGrapher
     # Given an array of classes, creates clusters from the array
     def create_clusters_from(classes)
       classes.each_with_index do |klass, i|
-        @clusters[i] |= {}
+        @clusters[i] = {} unless @clusters[i]
         curr_class = classes[i].inspect
         prev_class = classes[i-1].inspect if i > 0
 
