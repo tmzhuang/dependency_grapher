@@ -3,10 +3,10 @@ module DependencyGrapher
 	class Grapher
     def initialize(dependencies)
       @analyzer = Analyzer.new(dependencies)
+      p dependencies
     end
 
 		def graph
-      p "hi"
 			## Initialize digraph
 			#graph = GraphViz.digraph( :G, type: :digraph)
 			#clusters = {}
@@ -29,5 +29,12 @@ module DependencyGrapher
 			## Generate graph
 			#graph.output( png: "graph.png")
 		end
+
+    private
+    # Create graph and clusters as subgraphs
+    def create_graphs
+    end
+
+    end
 	end
 end
