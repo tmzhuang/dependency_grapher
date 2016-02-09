@@ -3,7 +3,10 @@ module DependencyGrapher
 	class Grapher
     def initialize(dependencies)
       @analyzer = Analyzer.new(dependencies)
-      p dependencies
+      dependencies.each do |dependency|
+        p dependency.caller
+        p dependency.receiver
+      end
     end
 
 		def graph
