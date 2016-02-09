@@ -50,6 +50,7 @@ module DependencyGrapher
       cluster = get_cluster(classes.size - 1, classes.last)
       p "Cluster: #{cluster}"
       cluster.add_nodes(method.method_id.inspect)
+      ;
     end
 
     # Given an array of classes, creates clusters from the array
@@ -58,6 +59,8 @@ module DependencyGrapher
         @clusters[i] = {} unless @clusters[i]
         curr_class = classes[i].inspect
         prev_class = classes[i-1].inspect if i > 0
+        p "prev_class #{ prev_class }"
+        p "curr_class #{ curr_class }"
 
         if i == 0
           # If we're at the root, add the cluster to the graph
