@@ -13,7 +13,7 @@ module DependencyGrapher
 				case tp.event
 					# Push calls onto stack
 				when :call
-					@call_stack <<  DependencyGrapher::Method.new(tp.defined_class, tp.method_id) 
+					@call_stack << DependencyGrapher::Method.new(tp.defined_class, tp.method_id) 
 					# When function returns, add dependency to 
 					# @dependencies as the current returning method
 					# with the last item on the stack
