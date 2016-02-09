@@ -4,8 +4,7 @@ module DependencyGrapher
     def initialize(dependencies)
       @analyzer = Analyzer.new(dependencies)
       dependencies.each do |dependency|
-        p dependency.caller
-        p dependency.receiver
+        p dependency
       end
     end
 
