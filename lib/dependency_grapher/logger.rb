@@ -1,4 +1,6 @@
 module DependencyGrapher
+  require "method"
+  require "dependency"
 	class Logger
 		attr_reader :dependencies 
 
@@ -15,7 +17,8 @@ module DependencyGrapher
 					# Push calls onto stack
           #theclass = tp.defined_class
           #themethodid = tp.method_id
-          DependencyGrapher::Method.new("a", "b")
+          #DependencyGrapher::Method.new("a", "b")
+          Method.new("a", "b")
 					#@call_stack << DependencyGrapher::Method.new(tp.defined_class, tp.method_id) 
 					@call_stack << method
 				when :return
