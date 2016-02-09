@@ -40,10 +40,7 @@ module DependencyGrapher
     # Given a depth and class_name, returns the subgraph from the @clusters
     # instance variable at that location
     def get_cluster(depth, class_name)
-      p "depth #{depth}"
-      p "class_name #{class_name}"
-      p "cluster[depth] #{@clusters[depth]}"
-      @cluster[depth][class_name]
+      @clusters[depth][class_name]
     end
 
     # Given a method, adds it to the cluster its class belongs to
