@@ -42,7 +42,7 @@ module DependencyGrapher
     def get_cluster(depth, class_name)
       p "depth #{depth}"
       p "class_name #{class_name}"
-      p "cluster[depth] #{cluster[depth]}"
+      p "cluster[depth] #{@clusters[depth]}"
       @cluster[depth][class_name]
     end
 
