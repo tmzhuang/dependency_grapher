@@ -19,7 +19,7 @@ module DependencyGrapher
 					# When function returns, add dependency to 
 					# @dependencies as the current returning method
 					# with the last item on the stack
-					caller = @call_stack[-1]
+					caller = @call_stack[-2]
 					receiver = @call_stack.pop
 					# my_caller should be nil when returning from main,
 					# so ignore that. Otherwise, we also don't care about
