@@ -59,10 +59,10 @@ module DependencyGrapher
 
         if i == 0
           # If we're at the root, add the cluster to the graph
-          @clusters[i][curr_class] |= @graph.add_graph("cluster_" + curr_class)
+          @clusters[i][curr_class] = @graph.add_graph("cluster_" + curr_class)
         else
           #Otherwise add it as a subgraph of the previous class
-          @clusters[i][curr_class] |= @clusters[i-1][prev_class].add_graph("cluster_" + curr_class)
+          @clusters[i][curr_class] = @clusters[i-1][prev_class].add_graph("cluster_" + curr_class)
         end
         # Label current graph
         @clusters[i][curr_class][:label] = curr_class
