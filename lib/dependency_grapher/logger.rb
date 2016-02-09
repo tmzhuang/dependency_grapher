@@ -13,8 +13,7 @@ module DependencyGrapher
 				case tp.event
 					# Push calls onto stack
 				when :call
-					call = { class: tp.defined_class, method: tp.method_id }
-					@call_stack << call
+					@call_stack <<  Method.new(tp.defined_class, tp.method_id) 
 					# When function returns, add dependency to 
 					# @dependencies as the current returning method
 					# with the last item on the stack
@@ -25,8 +24,7 @@ module DependencyGrapher
 					# so ignore that. Otherwise, we also don't care about
 					# dependencies within classes
 					if caller
-						dependency = { caller: caller, receiver: receiver }
-						@dependencies << dependency
+						@dependencies << Dependency.new(caller, receiver)
 					end
 				end
 			end
