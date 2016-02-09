@@ -14,13 +14,8 @@ module DependencyGrapher
 			@trace = TracePoint.trace(:call, :return) do |tp|
 				case tp.event
 				when :call
-					# Push calls onto stack
-          #theclass = tp.defined_class
-          #themethodid = tp.method_id
-          #DependencyGrapher::Method.new("a", "b")
-          Method.new("a", "b")
-					#@call_stack << DependencyGrapher::Method.new(tp.defined_class, tp.method_id) 
-					@call_stack << method
+          #@call_stack << DependencyGrapher::Method.new(tp.defined_class, tp.method_id) 
+          @call_stack << Method.new(tp.defined_class, tp.method_id) 
 				when :return
 					# When function returns, add dependency to 
 					# @dependencies as the current returning method
