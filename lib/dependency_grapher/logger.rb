@@ -5,8 +5,7 @@ module DependencyGrapher
 		attr_reader :dependencies 
 
 		def initialize
-			# Set of all inter-class method calls
-			@dependencies ||= Set.new
+			@dependencies = Set.new
 		end
 
 		def enable
