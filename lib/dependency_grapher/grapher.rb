@@ -34,7 +34,5 @@ module DependencyGrapher
     # Create graph and clusters as subgraphs
     def create_graphs
     end
-
-    end
 	end
 end
