@@ -14,7 +14,7 @@ module DependencyGrapher
         receiver = dependency.receiver
         p "Okay wtf is going on.."
         p "caller class is #{caller.defined_class}"
-        p "\tas an array it is #{caller.defined_class.inspect.split("::")}"
+        p "\tas an array it is #{caller.defined_class.to_s.split("::")}"
         # Array containing name of classes
         # ex. ["Minitest", "Test"]
         caller_classes = class_to_a(caller.defined_class)
@@ -39,7 +39,7 @@ module DependencyGrapher
     # Given a Class object, returns an array with each subclass as a string element
     # Ex. Minitest::Test => ["Minitest", "Test"]
     def class_to_a(klass)
-      klass.inspect.split("::")
+      klass.to_s.split("::")
     end
 
     # Given a depth and class_name, returns the subgraph from the @clusters
@@ -54,7 +54,7 @@ module DependencyGrapher
       classes = class_to_a(method.defined_class)
       cluster = get_cluster(classes.size - 1, classes.last)
       p "Cluster: #{cluster}"
-      cluster.add_nodes(method.method_id.inspect)
+      cluster.add_nodes(method.method_id.to_s)
       ;
     end
 
@@ -62,14 +62,14 @@ module DependencyGrapher
     def create_clusters_from(classes)
       classes.each_with_index do |klass, i|
         @clusters[i] = {} unless @clusters[i]
-        curr_class = classes[i].inspect
+        curr_class = classes[i].to_s
         p "curr_class #{ curr_class }"
         if i == 0
           # If we're at the root, add the cluster to the graph
           @clusters[i][curr_class] = @graph.add_graph("cluster_" + curr_class)
         else
           #Otherwise add it as a subgraph of the previous class
-          prev_class = classes[i-1].inspect 
+          prev_class = classes[i-1].to_s 
           @clusters[i][curr_class] = @clusters[i-1][prev_class].add_graph("cluster_" + curr_class)
           p "prev_class #{ prev_class }"
         end
