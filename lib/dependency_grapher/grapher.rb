@@ -20,7 +20,7 @@ module DependencyGrapher
         create_node_from(receiver)
         # Create edge
         calling_node = caller.method_id.to_s
-        receiver_node = caller.method_id.to_s
+        receiving_node = caller.method_id.to_s
         @graph.add_edges(calling_node, receiving_node)
       end
 
