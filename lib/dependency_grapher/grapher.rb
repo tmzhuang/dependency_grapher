@@ -17,7 +17,9 @@ module DependencyGrapher
         caller_classes = class_to_a(caller.defined_class)
         receiver_classes = class_to_a(receiver.defined_class)
         # Create clusters
+        p "Creating caller classes: #{caller_classes}"
         create_clusters_from(caller_classes)
+        p "Creating receiver classes: #{receiver_classes}"
         create_clusters_from(receiver_classes)
         # Create nodes
         calling_node = create_node_from(caller)
