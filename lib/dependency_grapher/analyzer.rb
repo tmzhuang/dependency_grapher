@@ -2,12 +2,18 @@ module DependencyGrapher
   require 'set'
   class Analyzer
     def initialize(dependencies, *filters)
-      @dependencies = dependencies
+      @original_dependencies = dependencies
+      @calculated_dependencies = @original_dependencies
 
       # Crawl folders for class names 
-      @controllers = classes_in("controllers")
-      @models = classes_in("models")
-      @services = classes_in("services")
+      @known_classes = get_classes
+      #@known_classes.each do |klass|
+        #p klass
+      #end
+      @original_dependencies.each do |dep|
+        p dep.caller.defined_class.to_s.split("::").first
+        p dep.receiver.defined_class.to_s.split("::").first
+      end
 
       # Add default filters
       if filters.empty?
@@ -37,18 +43,22 @@ module DependencyGrapher
       end
     end
 
-    def calc_dependencies
+    def dependencies
+      @calculated_dependencies
     end
 
     private
     # Returns an array of class names in folder specified by argument. Since we are dealing 
     # with a Rails app, folder is expected to be in app/. For example, if folder is specified
     # to be 'models', then classes in 'app/models/' will be returned.
-    def classes_in(folder)
-      result = []
-      Dir.glob("app/#{folder}/*.rb").map do |file|
-        result << file[/app\/#{folder}\/(.*)\.rb/, 1].camelize
+    def get_classes
+      result = Set.new
+      ActiveSupport::Dependencies.autoload_paths.each do |folder|
+        Dir.glob("#{folder}/*.rb").map do |file|
+          result << file[/#{folder}\/(.*)\.rb/, 1].camelize
+        end
       end
+      result
     end
 
     def calc_filter_set(filter)

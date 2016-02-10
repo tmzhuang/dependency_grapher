@@ -9,20 +9,31 @@ module DependencyGrapher
 		def graph
       @graph = GraphViz.digraph( :G, type: :digraph)
       @clusters = []
+      edges ||= Set.new
+      methods ||= Set.new
       @dependencies.each do |dependency|
-        Methods from the dependencies
+        # Methods from the dependencies
         caller = dependency.caller
         receiver = dependency.receiver
-        # Create clusters
-        create_clusters_from(caller.defined_class)
-        create_clusters_from(receiver.defined_class)
-        # Create nodes
-        #create_node_from(caller)
-        #create_node_from(receiver)
-        # Create edge
-        #calling_node = caller.method_id.to_s
-        #receiving_node = caller.method_id.to_s
-        #@graph.add_edges(calling_node, receiving_node)
+        # Add methods to set
+        methods << caller
+        methods << receiver
+        # Add edges to set
+        calling_node = caller.method_id.to_s
+        receiving_node = receiver.method_id.to_s
+        edge = { from: calling_node, to: receiving_node }
+        edges << edge
+      end
+
+      # Iterate over methods to create clusters and nodes
+      methods.each do |method|
+        create_clusters_from(method)
+        create_node_from(method)
+      end
+
+      # Iterate over edges and add them to graph
+      edges.each do |edge|
+        @graph.add_edges(edge[:from], edge[:to])
       end
 
       # Generate graph
@@ -46,9 +57,9 @@ module DependencyGrapher
     end
 
     # Given an array of classes, creates clusters from the array
-    def create_clusters_from(klass)
+    def create_clusters_from(method)
       # Split classes into an array 
-      classes = class_to_a(klass)
+      classes = class_to_a(method.defined_class)
       # Iterate over array and add each element as a subgraph at corresponding depth
       classes.each_with_index do |klass, i|
         @clusters[i] ||= {} 
@@ -56,12 +67,7 @@ module DependencyGrapher
         if i == 0
           # If we're at the root, add the cluster to the graph
           subgraph = @graph.add_graph("cluster_" + curr_class)
-          #puts "here is the subgraph: #{subgraph}"
-          #puts "putting it into @clusters[#{i}][#{curr_class}]"
           @clusters[i][curr_class] = subgraph
-          #puts "here it is from the clusters: #{@clusters[i][curr_class]}"
-          #c = (subgraph == @clusters[i][curr_class])
-          #puts "are they equal? #{c}"
         else
           #Otherwise add it as a subgraph of the previous class
           prev_class = classes[i-1]
