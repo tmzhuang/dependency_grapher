@@ -10,13 +10,12 @@ module DependencyGrapher
       @graph = GraphViz.digraph( :G, type: :digraph)
       @clusters = []
       @dependencies.each do |dependency|
-        p dependency
-        # Methods from the dependencies
-        #caller = dependency.caller
-        #receiver = dependency.receiver
-        ## Create clusters
-        #create_clusters_from(caller.defined_class)
-        #create_clusters_from(receiver.defined_class)
+        Methods from the dependencies
+        caller = dependency.caller
+        receiver = dependency.receiver
+        # Create clusters
+        create_clusters_from(caller.defined_class)
+        create_clusters_from(receiver.defined_class)
         # Create nodes
         #create_node_from(caller)
         #create_node_from(receiver)
