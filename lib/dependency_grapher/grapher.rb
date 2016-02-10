@@ -58,6 +58,7 @@ module DependencyGrapher
       classes.each_with_index do |klass, i|
         @clusters[i] = {} unless @clusters[i]
         curr_class = classes[i].inspect
+        p "curr_class #{ curr_class }"
         if i == 0
           # If we're at the root, add the cluster to the graph
           @clusters[i][curr_class] = @graph.add_graph("cluster_" + curr_class)
@@ -65,9 +66,8 @@ module DependencyGrapher
           #Otherwise add it as a subgraph of the previous class
           prev_class = classes[i-1].inspect 
           @clusters[i][curr_class] = @clusters[i-1][prev_class].add_graph("cluster_" + curr_class)
+          p "prev_class #{ prev_class }"
         end
-        p "prev_class #{ prev_class }"
-        p "curr_class #{ curr_class }"
         # Label current graph
         @clusters[i][curr_class][:label] = curr_class
       end
