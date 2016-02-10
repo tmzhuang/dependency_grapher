@@ -39,8 +39,8 @@ module DependencyGrapher
     def create_node_from(method)
       classes = class_to_a(method.defined_class)
       depth = classes.size - 1
-      class = classes.last
-      #cluster = get_cluster(classes.size - 1, classes.last)
+      klass = classes.last
+      cluster = @clusters[depth][klass]
       cluster.add_nodes(method.method_id.to_s)
     end
 
