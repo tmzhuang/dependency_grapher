@@ -12,6 +12,7 @@ module DependencyGrapher
       @dependencies.each do |dependency|
         caller = dependency.caller
         receiver = dependency.receiver
+        p "Adding dep: #{caller} to #{receiver}"
         ##p "Okay wtf is going on.."
         #p "caller class is #{caller.defined_class}"
         #p "\tas an array it is #{caller.defined_class.to_s.split("::")}"
