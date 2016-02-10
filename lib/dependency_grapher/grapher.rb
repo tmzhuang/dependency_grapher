@@ -17,8 +17,8 @@ module DependencyGrapher
         create_clusters_from(caller.defined_class)
         create_clusters_from(receiver.defined_class)
         # Create nodes
-        create_node_from(caller)
-        create_node_from(receiver)
+        #create_node_from(caller)
+        #create_node_from(receiver)
         # Create edge
         #calling_node = caller.method_id.to_s
         #receiving_node = caller.method_id.to_s
