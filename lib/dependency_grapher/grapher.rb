@@ -17,13 +17,11 @@ module DependencyGrapher
         #p "\tas an array it is #{caller.defined_class.to_s.split("::")}"
         # Array containing name of classes
         # ex. ["Minitest", "Test"]
-        caller_classes = class_to_a(caller.defined_class)
-        receiver_classes = class_to_a(receiver.defined_class)
         # Create clusters
         #p "Creating caller classes: #{caller_classes}"
-        create_clusters_from(caller_classes)
+        create_clusters_from(caller.defined_class)
         #p "Creating receiver classes: #{receiver_classes}"
-        create_clusters_from(receiver_classes)
+        create_clusters_from(receiver.defined_class)
         # Create nodes
         calling_node = create_node_from(caller)
         receiving_node = create_node_from(receiver)
@@ -59,23 +57,26 @@ module DependencyGrapher
     end
 
     # Given an array of classes, creates clusters from the array
-    def create_clusters_from(classes)
+    def create_clusters_from(klass)
+      # Split classes into an array 
+      classes = klass.to_s.split("::")
+      # Iterate over array and add each element as a subgraph at corresponding depth
       classes.each_with_index do |klass, i|
-        @clusters[i] = {} unless @clusters[i]
-        curr_class = classes[i].to_s
+        @clusters[i] ||= {} 
+        curr_class = classes[i]
         #p "curr_class #{ curr_class }"
         if i == 0
           # If we're at the root, add the cluster to the graph
           subgraph = @graph.add_graph("cluster_" + curr_class)
-          puts "here is the subgraph: #{subgraph}"
-          puts "putting it into @clusters[#{i}][#{curr_class}]"
+          #puts "here is the subgraph: #{subgraph}"
+          #puts "putting it into @clusters[#{i}][#{curr_class}]"
           @clusters[i][curr_class] = subgraph
-          puts "here it is from the clusters: #{@clusters[i][curr_class]}"
-          c = (subgraph == @clusters[i][curr_class])
-          puts "are they equal? #{c}"
+          #puts "here it is from the clusters: #{@clusters[i][curr_class]}"
+          #c = (subgraph == @clusters[i][curr_class])
+          #puts "are they equal? #{c}"
         else
           #Otherwise add it as a subgraph of the previous class
-          prev_class = classes[i-1].to_s 
+          prev_class = classes[i-1]
           @clusters[i][curr_class] = @clusters[i-1][prev_class].add_graph("cluster_" + curr_class)
           #p "prev_class #{ prev_class }"
         end
