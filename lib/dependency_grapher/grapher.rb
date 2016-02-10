@@ -12,6 +12,9 @@ module DependencyGrapher
       @dependencies.each do |dependency|
         caller = dependency.caller
         receiver = dependency.receiver
+        p "Okay wtf is going on.."
+        p "caller class is #{caller.defined_class}"
+        p "\tas an array it is #{caller.defined_class.inspect.split("::")}"
         # Array containing name of classes
         # ex. ["Minitest", "Test"]
         caller_classes = class_to_a(caller.defined_class)
