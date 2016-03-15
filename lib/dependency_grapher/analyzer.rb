@@ -3,16 +3,25 @@ module DependencyGrapher
   class Analyzer
     def initialize(dependencies, *filters)
       @original_dependencies = dependencies
-      @calculated_dependencies = @original_dependencies
+      @calculated_dependencies = Set.new
 
       # Crawl folders for class names 
       @known_classes = get_classes
       #@known_classes.each do |klass|
         #p klass
       #end
+
+      p @original_dependencies.size
       @original_dependencies.each do |dep|
-        p dep.caller.defined_class.to_s.split("::").first
-        p dep.receiver.defined_class.to_s.split("::").first
+        caller_root =  dep.caller.defined_class.to_s.split("::").first
+        receiver_root =  dep.receiver.defined_class.to_s.split("::").first
+        p caller_root.class
+        @calculated_dependencies << dep if (@known_classes.include?(caller_root) || @known_classes.include?(receiver_root))
+      end
+
+      p "cacl dep size: #{@calculated_dependencies.size}"
+      @calculated_dependencies.each do |calc_dep|
+        p calc_dep
       end
 
       # Add default filters
