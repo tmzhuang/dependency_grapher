@@ -4,5 +4,5 @@ module DependencyGrapher
 	require 'dependency_grapher/logger'
 	require 'dependency_grapher/analyzer'
 	require 'dependency_grapher/grapher'
+	require 'dependency_grapher/test_helpers'
 end
-

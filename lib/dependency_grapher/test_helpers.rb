@@ -5,7 +5,6 @@ module DependencyGrapher
     extend ActiveSupport::Concern
 
     included do
-
       ## Add more helper methods to be used by all tests here...
       @@dependency_logger = DependencyGrapher::Logger.new
 
@@ -18,20 +17,9 @@ module DependencyGrapher
       end
 
       Minitest.after_run do 
-        p "From minitest:DG"
-        p @dependency_logger
+        analyzer = DependencyGrapher::Analyzer.new(@@dependency_logger.dependencies)
+        #grapher = DependencyGrapher::Grapher.new(@@dependency_logger.dependencies)
       end
-
-      #Minitest.after_run do
-      #puts
-      #puts "-----------------------------------------"
-      #puts "Timing Information for the Last Test Run"
-      #puts "-----------------------------------------"
-      #puts
-      #puts "Time, Test Name"
-      #puts
-      #@@minitest_profiler_report.sort_by { |timing| timing[:time] }.reverse.each { |timing| puts "#{timing[:time]}, #{timing[:name]}" }
-      #end
     end
   end
 

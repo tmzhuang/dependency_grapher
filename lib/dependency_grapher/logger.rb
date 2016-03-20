@@ -27,6 +27,7 @@ module DependencyGrapher
           @dependencies << Dependency.new(caller, receiver) if caller
 				end
 			end
+      @trace.enable
 		end
 
 		def disable

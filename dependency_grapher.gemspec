@@ -6,8 +6,8 @@ require 'dependency_grapher/version'
 Gem::Specification.new do |spec|
   spec.name          = "dependency_grapher"
   spec.version       = DependencyGrapher::VERSION
-  spec.authors       = ["tmzhuang"]
-  spec.email         = ["abstract.wolf@gmail.com"]
+  spec.authors       = ["Tianming Zhuang"]
+  spec.email         = ["tianming.zhuang@gmail.com"]
 
   spec.summary       = %q{Graphical vizualization of Ruby application dependencies.}
   spec.description   = %q{For applications that use minitest as the automated test framework. This gem provides a class for logging the dependencies of the application while the test runs, and another for analyzing those dependencies and producing a graph.}
@@ -19,8 +19,9 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.11"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "minitest", "~> 5.0"
-  spec.add_runtime_dependency "ruby-graphviz", "~> 1.2.2"
+  spec.add_dependency "minitest"
+  spec.add_dependency "ruby-graphviz"
+  spec.add_dependency "activesupport"
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "rake"
 end
