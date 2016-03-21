@@ -3,7 +3,7 @@ module DependencyGrapher
 	class Grapher
     def initialize(dependencies)
       @analyzer = Analyzer.new(dependencies)
-      @dependencies = dependencies
+      @dependencies = @analyzer.dependencies
     end
 
 		def graph
@@ -37,6 +37,7 @@ module DependencyGrapher
       end
 
       # Generate graph
+      p @dependencies.size
       @graph.output( png: "graph.png")
 		end
 

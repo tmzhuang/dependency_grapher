@@ -17,8 +17,9 @@ module DependencyGrapher
       end
 
       Minitest.after_run do 
-        analyzer = DependencyGrapher::Analyzer.new(@@dependency_logger.dependencies)
-        #grapher = DependencyGrapher::Grapher.new(@@dependency_logger.dependencies)
+        #analyzer = DependencyGrapher::Analyzer.new(@@dependency_logger.dependencies)
+        grapher = DependencyGrapher::Grapher.new(@@dependency_logger.dependencies)
+        grapher.graph
       end
     end
   end

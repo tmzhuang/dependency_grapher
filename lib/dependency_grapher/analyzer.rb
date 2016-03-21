@@ -5,7 +5,7 @@ module DependencyGrapher
       @original_dependencies = dependencies
       @calculated_dependencies = Set.new
 
-      # Crawl folders for class names 
+      # Crawl ActiveSupport::Dependencies.autoload_paths for known classes
       @known_classes = get_classes
       #@known_classes.each do |klass|
         #p klass
@@ -15,21 +15,25 @@ module DependencyGrapher
       @original_dependencies.each_with_index do |dep, i|
         caller_root = dep.caller.defined_class.to_s.split("::").first
         receiver_root = dep.receiver.defined_class.to_s.split("::").first
-        if caller_root == "UserModel"
-          p "caller_root: #{caller_root}"
-          p "receiver_root: #{receiver_root}"
+        # all pass_conds must be true for dependency to be added to calculated_dependencies
+        pass_conds = true
+        #pass_conds &&= caller_root != receiver_root
+        #if caller_root == "User"
+          #p "caller_root: #{caller_root}"
+          #p "receiver_root: #{receiver_root}"
           #p "known? : #{(@known_classes.include?(caller_root) || @known_classes.include?(receiver_root))}"
-        end
-        #@calculated_dependencies << dep if (@known_classes.include?(caller_root) || @known_classes.include?(receiver_root))
+        #end
+        pass_conds &&= (@known_classes.include?(caller_root) || @known_classes.include?(receiver_root))
+        @calculated_dependencies << dep if pass_conds
         #@calculated_dependencies << dep 
       end
 
-      p "cacl dep size: #{@calculated_dependencies.size}"
-      #@calculated_dependencies.each do |calc_dep|
-        #p calc_dep
-      #end
+      #p "cacl dep size: #{@calculated_dependencies.size}"
+      @calculated_dependencies.each do |dep|
+        p "class #{dep.caller.defined_class.to_s} calling #{dep.receiver.defined_class.to_s}"
+      end
 
-      # Add default filters
+      #Add default filters
       #if filters.empty?
         #@filters = Set.new [:interclass, :rails]
         ## Otherwise, add provided filters
@@ -50,10 +54,7 @@ module DependencyGrapher
 
     def apply_filters
       @filters.each do |filter|
-        case filter
-        when :intercluster
-        when :rails
-        end
+        apply_filter(filter)
       end
     end
 
@@ -75,8 +76,11 @@ module DependencyGrapher
       result
     end
 
-    def calc_filter_set(filter)
+    def apply_filter(filter)
+      case filter
+      when :interclass
+      when :rails
+      end
     end
-
   end
 end
