@@ -17,7 +17,6 @@ class LoggerTest < Minitest::Test
     logger.enable
     A.call
     logger.disable
-    p logger.dependencies
     assert logger.dependencies.size >= 0
   end
 end

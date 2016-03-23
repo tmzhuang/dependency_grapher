@@ -1,7 +1,8 @@
+require 'graphviz'
+require 'set'
+require_relative 'grapher'
+
 module DependencyGrapher
-  require 'graphviz'
-  require 'set'
-  require_relative 'grapher'
   class DotGenerator
     def initialize(dependencies)
       @dependencies = dependencies

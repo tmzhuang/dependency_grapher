@@ -1,5 +1,6 @@
+require 'set'
+
 module DependencyGrapher
-  require 'set'
   class DependencyFilter
     def initialize(dependencies, *filters)
       @original_dependencies = dependencies
@@ -13,9 +14,15 @@ module DependencyGrapher
       end
       puts
 
+      def extract_class(string)
+        pattern = /((#<(Class|Module):)*)([^>]*)>*/
+        string.match(pattern)[4]
+      end
+
       @original_dependencies.each_with_index do |dep, i|
         kaller = dep.caller
         receiver = dep.receiver
+        p kaller.defined_class
         p "OMGGGHIHIHI" if kaller.nesting.include? "RegisterUser"
         # all pass_conds must be true for dependency to be added to calculated_dependencies
         pass_conds = true

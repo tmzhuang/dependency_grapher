@@ -1,9 +1,9 @@
+require 'active_support'
+require 'minitest'
+require_relative "dependency_filter"
+require_relative "dot_generator"
+
 module DependencyGrapher
-  require 'active_support'
-  require 'minitest'
-  require 'yaml'
-  require_relative "dependency_filter"
-  require_relative "dot_generator"
   module TestHelpers
     extend ActiveSupport::Concern
     included do
@@ -26,5 +26,4 @@ module DependencyGrapher
       end
     end
   end
-
 end

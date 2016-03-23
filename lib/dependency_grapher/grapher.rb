@@ -1,5 +1,6 @@
+require 'graphviz'
+
 module DependencyGrapher
-  require 'graphviz'
   class Grapher
     attr_accessor :graph
     def initialize(name = "dependencies")

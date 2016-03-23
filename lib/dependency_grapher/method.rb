@@ -1,7 +1,9 @@
 require 'yaml'
+require_relative 'serialize_helpers'
 
 module DependencyGrapher
   class Method
+    include DependencyGrapher::SerializeHelpers
     attr_reader :defined_class, :method_id
 
     def initialize(defined_class, method_id)
@@ -21,20 +23,5 @@ module DependencyGrapher
       nesting.last
     end
 
-    #def to_yaml
-      #YAML.dump(self)
-    #end
-
-    #def self.from_yaml(string)
-      #YAML.load(string)
-    #end
-
-    def serialize
-      YAML.dump(self)
-    end
-
-    def self.deserialize(string)
-      YAML.load(string)
-    end
   end
 end
