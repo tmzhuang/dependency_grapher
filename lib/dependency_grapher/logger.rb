@@ -1,6 +1,7 @@
 require_relative "method"
 require_relative "dependency"
-
+require_relative "parse_class"
+require 'pry'
 module DependencyGrapher
 	class Logger
 		attr_reader :dependencies 
@@ -17,20 +18,18 @@ module DependencyGrapher
 			@trace = TracePoint.trace(:call, :return) do |tp|
 				case tp.event
 				when :call
-          @call_stack << Method.new(tp.defined_class, tp.method_id) 
+          name = ParseClass.call(tp.defined_class)
+          @call_stack << Method.new(name, tp.method_id.to_s) 
 				when :return
 					# When function returns, add dependency to 
 					# @dependencies as the current returning method
 					# with the last item on the stack
-					caller = @call_stack[-2] # Second last item on stack is the caller
-					receiver = @call_stack.pop # First item on stack is receiver
-          # Ignore case where caller is nil (ie. main)
-          @dependencies << Dependency.new(caller, receiver) if caller 
+          kaller = @call_stack[-2] # Second last item on stack is the kaller
+          receiver = @call_stack.pop # First item on stack is receiver
+          # Ignore case where kaller is nil (ie. main)
+          @dependencies << Dependency.new(kaller, receiver) if kaller
 				end
 			end
-      # This should be called within the test frame work in the setup function
-      # The TestHelpers modules takes care of this; see readme for installation
-      # instructions
       @trace.enable
 		end
 
@@ -38,5 +37,10 @@ module DependencyGrapher
       # Called in teardown
 			@trace.disable
 		end
+
+    # STRING, STRING -> post
+    # post: 
+    def push_call(defined_class, method)
+    end
 	end
 end
