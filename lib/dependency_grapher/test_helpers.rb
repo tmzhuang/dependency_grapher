@@ -1,5 +1,6 @@
 require 'active_support'
 require 'minitest'
+require 'pry'
 require_relative "dependency_filter"
 require_relative "dot_generator"
 
@@ -19,6 +20,9 @@ module DependencyGrapher
 
       Minitest.after_run do 
         dependencies = @@dependency_logger.dependencies
+        #dependencies.each do |dep|
+          #p "#{dep.caller.defined_class} calling #{dep.receiver.defined_class}"
+        #end
         # Pass logged dependencies to filter
         filtered_dependencies = DependencyGrapher::DependencyFilter.new(dependencies).dependencies
         # Pass filtered dependnecies to dot generator (creates dot file on initialization)

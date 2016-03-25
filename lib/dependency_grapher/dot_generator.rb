@@ -51,12 +51,12 @@ module DependencyGrapher
     # Add a method to the structure of stored graph. Defined classes are stored
     # as clusters (subgraphs) and method id is used to identify the node
     def add_to_graph(method)
-      # Iterate over nesting (eg. Minitest::Unit yields Minitest, # Unit)
+      # Iterate over ancestors (eg. Minitest::Unit yields Minitest, # Unit)
       # This variable is used to reference the immediate parent of the 
       # current graph. Initializes to the root; updates on each iteration.
       prev_graph = @graph 
-      method.nesting.each_with_index do |klass, i|
-        graph_id = "cluster_" + method.nesting[0..i].join("::")
+      method.ancestors.each_with_index do |klass, i|
+        graph_id = "cluster_" + method.ancestors[0..i].join("::")
         # Try to find the subgraph if it exists
         if subgraph = prev_graph.get_graph(graph_id)
         else

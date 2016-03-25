@@ -14,16 +14,11 @@ module DependencyGrapher
       end
       puts
 
-      def extract_class(string)
-        pattern = /((#<(Class|Module):)*)([^>]*)>*/
-        string.match(pattern)[4]
-      end
 
       @original_dependencies.each_with_index do |dep, i|
         kaller = dep.caller
         receiver = dep.receiver
         p kaller.defined_class
-        p "OMGGGHIHIHI" if kaller.nesting.include? "RegisterUser"
         # all pass_conds must be true for dependency to be added to calculated_dependencies
         pass_conds = true
         pass_conds &&= (kaller != receiver)
@@ -35,7 +30,7 @@ module DependencyGrapher
         #end
         pass_conds &&= (@known_classes.include?(kaller.root) || @known_classes.include?(receiver.root))
         #pass_conds &&= caller_root == "RegisterUser"
-        p kaller.nesting if pass_conds
+        p kaller.ancestors if pass_conds
         @calculated_dependencies << dep if pass_conds
         #@calculated_dependencies << dep 
       end
