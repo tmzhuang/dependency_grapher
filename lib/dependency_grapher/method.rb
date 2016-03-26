@@ -27,5 +27,8 @@ module DependencyGrapher
       ancestors.last
     end
 
+    def full_method_id
+      @defined_class + @method_id
+    end
   end
 end

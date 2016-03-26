@@ -1,8 +1,8 @@
 require "dependency_grapher/version"
 
 module DependencyGrapher
-	require 'dependency_grapher/logger'
-	require 'dependency_grapher/grapher'
-	require 'dependency_grapher/test_helpers'
+  Gem.find_files("dependency_grapher/*.rb").each do |path|
+    require path
+  end
 	require 'dependency_grapher/railtie' if defined?(Rails)
 end

@@ -1,16 +1,24 @@
-require_relative '../dependency_grapher/get_known_classes'
-namespace :depg do
+namespace :dep do
   desc 'Outputs dependencies to graph given format. Defaults to dot.'
   task :graph, :name, :format do |t, args|
     format = args[:format] || :dot
     name = args[:name] || "dependencies"
-    grapher = DependencyGrapher::Grapher.new(name)
-    grapher.load_dot
-    grapher.dump
+    #dependencies = @@dependency_logger.dependencies
+    # Pass logged dependencies to filter
+    filter = DependencyGrapher::DependencyFilter.new
+    filter.load_file
+    filter.filter
+    grapher = DependencyGrapher::Grapher.new(filter.dependencies)
+    #grapher.output
+    ## Pass filtered dependnecies to dot generator (creates dot file on initialization)
+    #DependencyGrapher::Grapher.new(filtered_dependencies)
   end
   
   desc 'List known classes in project from autoload_paths'
   task :classes do
     classes = DependencyGrapher::GetKnownClasses.call
+    classes.each do |klass|
+      p klass
+    end
   end
 end

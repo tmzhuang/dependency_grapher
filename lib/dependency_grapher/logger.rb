@@ -1,46 +1,59 @@
 require_relative "method"
 require_relative "dependency"
 require_relative "parse_class"
+
 require 'pry'
 module DependencyGrapher
 	class Logger
 		attr_reader :dependencies 
-
 		def initialize
       # This set has all dependencies logged. There will many
 			@dependencies = Set.new
+      # Call stack for tracking method calls
+			@call_stack = []
+      @trace = get_trace_point
 		end
 
 		def enable
-      # Call stack for tracking method calls
-			@call_stack = []
-      # Define a tracepoint for tacking ruby calls and returns
-			@trace = TracePoint.trace(:call, :return) do |tp|
-				case tp.event
-				when :call
-          name = ParseClass.call(tp.defined_class)
-          @call_stack << Method.new(name, tp.method_id.to_s) 
-				when :return
-					# When function returns, add dependency to 
-					# @dependencies as the current returning method
-					# with the last item on the stack
-          kaller = @call_stack[-2] # Second last item on stack is the kaller
-          receiver = @call_stack.pop # First item on stack is receiver
-          # Ignore case where kaller is nil (ie. main)
-          @dependencies << Dependency.new(kaller, receiver) if kaller
-				end
-			end
       @trace.enable
 		end
 
 		def disable
-      # Called in teardown
 			@trace.disable
 		end
 
-    # STRING, STRING -> post
-    # post: 
-    def push_call(defined_class, method)
+    def dump
+      file = File.open("dependencies.yml", "w")
+      @dependencies.each do |dep|
+        file.puts dep.serialize
+        file.puts
+      end
+    end
+
+    private
+    def get_trace_point
+      # Define a tracepoint for tacking ruby calls and returns
+			tp = TracePoint.trace(:call, :return) do |tp|
+				case tp.event
+				when :call
+          handle_call(tp.defined_class, tp.method_id)
+				when :return
+          handle_return
+				end
+			end
+      tp.disable # Disable tp by default
+      tp
+    end
+
+    def handle_call(defined_class, method_id)
+      @call_stack << Method.new(ParseClass.call(defined_class), method_id.to_s) 
+    end
+
+    def handle_return
+      kaller = @call_stack[-2] # Second last item on stack is the kaller
+      receiver = @call_stack.pop # First item on stack is receiver
+      # Ignore case where kaller is nil (ie. main)
+      @dependencies << Dependency.new(kaller, receiver) if kaller
     end
 	end
 end

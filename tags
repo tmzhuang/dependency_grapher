@@ -1,0 +1,84 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Dependency	lib/dependency_grapher/dependency.rb	/^  class Dependency$/;"	c	class:DependencyGrapher
+DependencyFilter	lib/dependency_grapher/dependency_filter.rb	/^  class DependencyFilter$/;"	c	class:DependencyGrapher
+DependencyFilterTest	test/dependency_filter_test.rb	/^class DependencyFilterTest < Minitest::Test$/;"	c
+DependencyGrapher	lib/dependency_grapher.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/dependency.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/dependency_filter.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/dot_generator.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/get_known_classes.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/grapher.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/logger.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/method.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/parse_class.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/railtie.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/serialize_helpers.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/test_helpers.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapher	lib/dependency_grapher/version.rb	/^module DependencyGrapher$/;"	m
+DependencyGrapherTest	test/dependency_grapher_test.rb	/^class DependencyGrapherTest < Minitest::Test$/;"	c
+DependencyTest	test/dependency_test.rb	/^class DependencyTest < Minitest::Test$/;"	c
+DotGenerator	lib/dependency_grapher/dot_generator.rb	/^  class DotGenerator$/;"	c	class:DependencyGrapher
+GetKnownClasses	lib/dependency_grapher/get_known_classes.rb	/^  class GetKnownClasses$/;"	c	class:DependencyGrapher
+Grapher	lib/dependency_grapher/grapher.rb	/^  class Grapher$/;"	c	class:DependencyGrapher
+Logger	lib/dependency_grapher/logger.rb	/^	class Logger$/;"	c	class:DependencyGrapher
+LoggerTest	test/logger_test.rb	/^class LoggerTest < Minitest::Test$/;"	c
+Method	lib/dependency_grapher/method.rb	/^  class Method$/;"	c	class:DependencyGrapher
+MethodTest	test/method_test.rb	/^class MethodTest < Minitest::Test$/;"	c
+ParseClass	lib/dependency_grapher/parse_class.rb	/^  class ParseClass$/;"	c	class:DependencyGrapher
+ParseClassTest	test/parse_class_test.rb	/^class ParseClassTest < Minitest::Test$/;"	c
+Railtie	lib/dependency_grapher/railtie.rb	/^  class Railtie < Rails::Railtie$/;"	c	class:DependencyGrapher
+SerializeHelpers	lib/dependency_grapher/serialize_helpers.rb	/^  module SerializeHelpers$/;"	m	class:DependencyGrapher
+TestHelpers	lib/dependency_grapher/test_helpers.rb	/^  module TestHelpers$/;"	m	class:DependencyGrapher
+add_filters	lib/dependency_grapher/dependency_filter.rb	/^    def add_filters(*filters)$/;"	f	class:DependencyGrapher.DependencyFilter
+add_to_graph	lib/dependency_grapher/dot_generator.rb	/^    def add_to_graph(method)$/;"	f	class:DependencyGrapher.DotGenerator
+ancestors	lib/dependency_grapher/method.rb	/^    def ancestors$/;"	f	class:DependencyGrapher.Method
+anon_class_pattern?	lib/dependency_grapher/parse_class.rb	/^      def anon_class_pattern?(name)$/;"	f	class:DependencyGrapher.ParseClass
+anon_pattern	lib/dependency_grapher/parse_class.rb	/^      def anon_pattern $/;"	f	class:DependencyGrapher.ParseClass
+apply_filter	lib/dependency_grapher/dependency_filter.rb	/^    def apply_filter(filter)$/;"	f	class:DependencyGrapher.DependencyFilter
+apply_filters	lib/dependency_grapher/dependency_filter.rb	/^    def apply_filters$/;"	f	class:DependencyGrapher.DependencyFilter
+call	lib/dependency_grapher/get_known_classes.rb	/^    def self.call$/;"	F	class:DependencyGrapher.GetKnownClasses
+call	lib/dependency_grapher/parse_class.rb	/^      def call(klass)$/;"	f	class:DependencyGrapher.ParseClass
+call	test/logger_test.rb	/^      def self.call$/;"	F	class:LoggerTest.setup
+dependencies	lib/dependency_grapher/dependency_filter.rb	/^    def dependencies$/;"	f	class:DependencyGrapher.DependencyFilter
+deserialize	lib/dependency_grapher/serialize_helpers.rb	/^      def self.deserialize(string)$/;"	F	class:DependencyGrapher.SerializeHelpers
+disable	lib/dependency_grapher/logger.rb	/^		def disable$/;"	f	class:DependencyGrapher.Logger
+dump	lib/dependency_grapher/grapher.rb	/^    def dump(format = :dot, name = @name)$/;"	f	class:DependencyGrapher.Grapher
+enable	lib/dependency_grapher/logger.rb	/^		def enable$/;"	f	class:DependencyGrapher.Logger
+from_yaml	lib/dependency_grapher/serialize_helpers.rb	/^      def self.from_yaml(yaml_string)$/;"	F	class:DependencyGrapher.SerializeHelpers
+generate_graph_from_dependencies	lib/dependency_grapher/dot_generator.rb	/^    def generate_graph_from_dependencies$/;"	f	class:DependencyGrapher.DotGenerator
+initialize	lib/dependency_grapher/dependency.rb	/^    def initialize(caller, receiver)$/;"	f	class:DependencyGrapher.Dependency
+initialize	lib/dependency_grapher/dependency_filter.rb	/^    def initialize(dependencies, *filters)$/;"	f	class:DependencyGrapher.DependencyFilter
+initialize	lib/dependency_grapher/dot_generator.rb	/^    def initialize(dependencies)$/;"	f	class:DependencyGrapher.DotGenerator
+initialize	lib/dependency_grapher/grapher.rb	/^    def initialize(name = "dependencies")$/;"	f	class:DependencyGrapher.Grapher
+initialize	lib/dependency_grapher/logger.rb	/^		def initialize$/;"	f	class:DependencyGrapher.Logger
+initialize	lib/dependency_grapher/method.rb	/^    def initialize(defined_class, method_id)$/;"	f	class:DependencyGrapher.Method
+leaf	lib/dependency_grapher/method.rb	/^    def leaf$/;"	f	class:DependencyGrapher.Method
+load	lib/dependency_grapher/grapher.rb	/^    def load(name = @name)$/;"	f	class:DependencyGrapher.Grapher
+nested_anon_pattern	lib/dependency_grapher/parse_class.rb	/^      def nested_anon_pattern $/;"	f	class:DependencyGrapher.ParseClass
+parse_anon_class_name	lib/dependency_grapher/parse_class.rb	/^      def parse_anon_class_name(name)$/;"	f	class:DependencyGrapher.ParseClass
+push_call	lib/dependency_grapher/logger.rb	/^    def push_call(defined_class, method)$/;"	f	class:DependencyGrapher.Logger
+remove_filters	lib/dependency_grapher/dependency_filter.rb	/^    def remove_filters(*filters)$/;"	f	class:DependencyGrapher.DependencyFilter
+root	lib/dependency_grapher/method.rb	/^    def root$/;"	f	class:DependencyGrapher.Method
+serialize	lib/dependency_grapher/serialize_helpers.rb	/^      def serialize$/;"	f	class:DependencyGrapher.SerializeHelpers
+setup	test/dependency_filter_test.rb	/^  def setup$/;"	f	class:DependencyFilterTest
+setup	test/dependency_test.rb	/^  def setup$/;"	f	class:DependencyTest
+setup	test/logger_test.rb	/^  def setup$/;"	f	class:LoggerTest
+setup	test/method_test.rb	/^  def setup$/;"	f	class:MethodTest
+setup	test/parse_class_test.rb	/^  def setup$/;"	f	class:ParseClassTest
+teardown	test/dependency_filter_test.rb	/^  def teardown $/;"	f	class:DependencyFilterTest
+teardown	test/dependency_test.rb	/^  def teardown $/;"	f	class:DependencyTest
+teardown	test/logger_test.rb	/^  def teardown $/;"	f	class:LoggerTest
+teardown	test/method_test.rb	/^  def teardown $/;"	f	class:MethodTest
+teardown	test/parse_class_test.rb	/^  def teardown $/;"	f	class:ParseClassTest
+test_deserialize_from_file	test/dependency_test.rb	/^  def test_deserialize_from_file$/;"	f	class:DependencyTest
+test_enable	test/logger_test.rb	/^  def test_enable$/;"	f	class:LoggerTest
+test_parse	test/parse_class_test.rb	/^  def test_parse$/;"	f	class:ParseClassTest
+test_serialize	test/dependency_test.rb	/^  def test_serialize$/;"	f	class:DependencyTest
+test_serialize	test/method_test.rb	/^  def test_serialize$/;"	f	class:MethodTest
+test_that_it_has_a_version_number	test/dependency_grapher_test.rb	/^  def test_that_it_has_a_version_number$/;"	f	class:DependencyGrapherTest
+to_yaml	lib/dependency_grapher/serialize_helpers.rb	/^      def to_yaml$/;"	f	class:DependencyGrapher.SerializeHelpers

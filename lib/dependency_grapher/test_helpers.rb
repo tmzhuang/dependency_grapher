@@ -19,11 +19,7 @@ module DependencyGrapher
       end
 
       Minitest.after_run do 
-        dependencies = @@dependency_logger.dependencies
-        # Pass logged dependencies to filter
-        filtered_dependencies = DependencyGrapher::DependencyFilter.new(dependencies).dependencies
-        # Pass filtered dependnecies to dot generator (creates dot file on initialization)
-        DependencyGrapher::DotGenerator.new(filtered_dependencies)
+        @@dependency_logger.dump
       end
     end
   end
