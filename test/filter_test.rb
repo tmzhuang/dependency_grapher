@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DependencyFilterTest < Minitest::Test
+class FilterTest < Minitest::Test
   def setup
   end
 

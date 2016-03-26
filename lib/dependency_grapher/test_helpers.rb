@@ -1,8 +1,4 @@
 require 'active_support'
-require 'minitest'
-require 'pry'
-require_relative "dependency_filter"
-require_relative "dot_generator"
 
 module DependencyGrapher
   module TestHelpers

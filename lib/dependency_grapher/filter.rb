@@ -1,7 +1,7 @@
 require 'set'
 
 module DependencyGrapher
-  class DependencyFilter
+  class Filter
     attr_accessor :dependencies
     def initialize
       @dependencies = nil
