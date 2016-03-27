@@ -11,6 +11,7 @@ module DependencyGrapher
 			@dependencies = Set.new
       # Call stack for tracking method calls
 			@call_stack = []
+      @methods = {}
       @trace = get_trace_point
 		end
 
@@ -46,7 +47,9 @@ module DependencyGrapher
     end
 
     def handle_call(defined_class, method_id)
-      @call_stack << Method.new(ParseClass.call(defined_class), method_id.to_s) 
+      method = Method.new(ParseClass.call(defined_class), method_id.to_s) 
+      @methods[method.full_method_id] = method unless  @methods[method.full_method_id]
+      @call_stack <<  @methods[method.full_method_id]
     end
 
     def handle_return

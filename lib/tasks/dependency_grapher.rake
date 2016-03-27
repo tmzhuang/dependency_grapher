@@ -8,25 +8,38 @@ namespace :dep do
     filter = DependencyGrapher::Filter.new
     filter.load_file
     filter.filter
-    grapher = DependencyGrapher::Grapher.new(filter.dependencies)
+    analyzer = DependencyGrapher::Analyzer.new(filter.dependencies)
+    analyzer.set_frameworks
+    analyzer.set_violations
+    grapher = DependencyGrapher::Grapher.new(analyzer.dependencies)
     #grapher.output
     ## Pass filtered dependnecies to dot generator (creates dot file on initialization)
     #DependencyGrapher::Grapher.new(filtered_dependencies)
   end
-  
-  desc 'List known classes in project from autoload_paths'
-  task :known do
-    classes = DependencyGrapher::GetKnownClasses.call
-    classes.each do |klass|
-      p klass
-    end
-  end
 
-  desc 'List known classes in app/services'
-  task :services do
-    classes = DependencyGrapher::GetServiceClasses.call
-    classes.each do |klass|
-      p klass
+  namespace :list do
+    desc 'List known classes in project from autoload_paths'
+    task :all do
+      classes = DependencyGrapher::GetKnownClasses.call
+      classes.each do |klass|
+        p klass
+      end
+    end
+
+    desc 'List known classes in app/services'
+    task :services do
+      classes = DependencyGrapher::GetKnownClasses.call(:services)
+      classes.each do |klass|
+        p klass
+      end
+    end
+
+    desc 'List known classes in app/controllers'
+    task :controllers do
+      classes = DependencyGrapher::GetKnownClasses.call(:controllers)
+      classes.each do |klass|
+        p klass
+      end
     end
   end
 end

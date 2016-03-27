@@ -6,7 +6,7 @@ module DependencyGrapher
     def initialize(dependencies)
       @dependencies = dependencies
       generate_graph_from_dependencies
-      @graph.output(png: "dependencies.png")
+      @graph.output(svg: "dependencies.svg")
     end
 
     def output(format = {png: "dependencies.png"})
@@ -25,19 +25,28 @@ module DependencyGrapher
         #@graph.add_edges(caller.method_id, receiver.method_id, color: :red)
         add_node(caller)
         add_node(receiver)
-        add_edge(caller, receiver)
+        if dependency.flags.include?(:violation)
+          add_edge(caller, receiver, :red)
+        else
+          add_edge(caller, receiver, :dimgrey)
+        end
       end
     end
 
-    def add_edge(caller, receiver, color = :black)
+    def add_edge(caller, receiver, color)
       @graph.add_edges(caller.full_method_id, receiver.full_method_id, color: color)
     end
 
     # Add a method to the structure of stored graph. Defined classes are stored
     # as clusters (subgraphs) and method id is used to identify the node
     def add_node(method)
-      #cluster_options = { bgcolor: :darkorchid
-      #} 
+      cluster_options = {} 
+      if method.types.include?(:service)
+        cluster_options[:bgcolor] = :azure3
+      elsif method.types.include?(:framework)
+        cluster_options[:bgcolor] = :brown
+      end
+      #binding.pry if method.root == "DependencyGrapher" && method.method_id == "initialize"
       # Iterate over ancestors (eg. Minitest::Unit yields Minitest, # Unit)
       # This variable is used to reference the immediate parent of the 
       # current graph. Initializes to the root; updates on each iteration.
@@ -45,12 +54,13 @@ module DependencyGrapher
       method.ancestors.each_with_index do |klass, i|
         graph_id = "cluster_" + method.ancestors[0..i].join("_")
         # Try to find the subgraph if it exists
-        if subgraph = prev_graph.get_graph(graph_id)
-        else
-          # Otherwise we create and label it
+        #if subgraph = prev_graph.get_graph(graph_id)
+          #subgraph.options(cluster_options)
+        #else
+          ## Otherwise we create and label it
           subgraph = prev_graph.add_graph(graph_id, cluster_options)
           subgraph[:label] = klass
-        end
+        #end
         # Update parent
         prev_graph = subgraph
       end

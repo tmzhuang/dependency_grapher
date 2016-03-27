@@ -1,9 +1,11 @@
 require 'yaml'
+require 'set'
 require_relative 'serialize_helpers'
 
 module DependencyGrapher
   class Method
     attr_reader :defined_class, :method_id
+    attr_accessor :types
     include DependencyGrapher::SerializeHelpers
     Limit = 50
 
@@ -12,6 +14,7 @@ module DependencyGrapher
       defined_class = defined_class[0,Limit] + "..." if defined_class.length > Limit
       @defined_class = defined_class
       @method_id = method_id
+      @types = Set.new
     end
 
     def ancestors
