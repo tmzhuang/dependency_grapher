@@ -36,6 +36,8 @@ module DependencyGrapher
     # Add a method to the structure of stored graph. Defined classes are stored
     # as clusters (subgraphs) and method id is used to identify the node
     def add_node(method)
+      #cluster_options = { bgcolor: :darkorchid
+      #} 
       # Iterate over ancestors (eg. Minitest::Unit yields Minitest, # Unit)
       # This variable is used to reference the immediate parent of the 
       # current graph. Initializes to the root; updates on each iteration.
@@ -46,13 +48,15 @@ module DependencyGrapher
         if subgraph = prev_graph.get_graph(graph_id)
         else
           # Otherwise we create and label it
-          subgraph = prev_graph.add_graph(graph_id)
+          subgraph = prev_graph.add_graph(graph_id, cluster_options)
           subgraph[:label] = klass
         end
         # Update parent
         prev_graph = subgraph
       end
-      prev_graph.add_nodes(method.full_method_id, label: method.method_id)
+      options = {}
+      options[:label] = method.method_id
+      prev_graph.add_nodes(method.full_method_id, options)
     end
   end
 end

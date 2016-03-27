@@ -5,7 +5,7 @@ namespace :dep do
     name = args[:name] || "dependencies"
     #dependencies = @@dependency_logger.dependencies
     # Pass logged dependencies to filter
-    filter = DependencyGrapher::DependencyFilter.new
+    filter = DependencyGrapher::Filter.new
     filter.load_file
     filter.filter
     grapher = DependencyGrapher::Grapher.new(filter.dependencies)
@@ -15,8 +15,16 @@ namespace :dep do
   end
   
   desc 'List known classes in project from autoload_paths'
-  task :classes do
+  task :known do
     classes = DependencyGrapher::GetKnownClasses.call
+    classes.each do |klass|
+      p klass
+    end
+  end
+
+  desc 'List known classes in app/services'
+  task :services do
+    classes = DependencyGrapher::GetServiceClasses.call
     classes.each do |klass|
       p klass
     end
