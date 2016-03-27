@@ -1,8 +1,48 @@
 # DependencyGrapher
 DependencyGrapher is a tool for highlighting certain method calls in your Rails application. Specifically, it highlights cases where classes makes calls to external frameworks that are already being referenced to by service objects. DependencyGrapher tries to use your testing framework to infer method dependencies between classes. It assumes that all service objects are in the `app/services/' folder.
 
+`users_controller.rb`:
+```ruby
+...
+  def get_logger
+    logger = DependencyGrapher::Logger.new
+    logger.enable
+    logger.disable
+  end
+...
+```
+`user.rb`:
+```ruby
+...
+  def get_logger
+    logger = GetLogger.call
+  end
+...
+```
+`user_test.rb`:
+```ruby
+class UserTest < ActiveSupport::TestCase
+  test "dep1" do
+    #p "in UserTest the truth"
+    @user = users(:tianming)
+    @skill = skills(:ruby)
+    @user.add_skill(@skill)
+    @user.get_logger
+    assert @user.has_skill?(@skill)
+  end
+
+  test "dep2" do
+    #p "in UserTest the truth"
+    UsersController.new.get_logger
+    assert true
+  end
+end
+  def get_logger
+    logger = GetLogger.call
+  end
+```
 Sample output:
-![sample output](http://i.imgur.com/7HDpVMG.png)
+![sample output](http://imgh.us/dependencies_1.svg)
 
 
 ## Installation
@@ -29,7 +69,7 @@ end
 ```
 Run `rake test` to run your tests. DependencyGrapher will log all method calls in your tests to produce `dependencies.yml`, which it will use to produce graphs.
 
-`rake depgra::png` to produce a png graph.
+`rake dep:graph` to produce a svg graph.
 
 ## Contributing
 
