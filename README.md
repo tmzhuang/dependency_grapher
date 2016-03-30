@@ -88,7 +88,7 @@ DependencyGrapher requires you first to run your unit tests to produce set of de
 After the tests have complete, run `rake dep:graph` to produce a svg graph. You may specify the name format of the graph output by using `rake dep:graph[name.format]`. For example, `rake dep:graph[graph.dot]` produces a DOT file of the graph. Acceptable formats can be found on the [GraphViz site](http://www.graphviz.org/doc/info/output.html).
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/tmzuang/dependency_grapher. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/tmzhuang/dependency_grapher. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
