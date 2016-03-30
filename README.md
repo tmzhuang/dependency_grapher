@@ -1,7 +1,10 @@
 # DependencyGrapher
 DependencyGrapher is a tool for highlighting certain method calls in your Rails application. Specifically, it highlights cases where classes makes calls to external frameworks that are already being referenced to by service objects. DependencyGrapher tries to use your testing framework to infer method dependencies between classes. It assumes that all service objects are in the `app/services/' folder.
 
-`users_controller.rb`:
+DependencyGrapher will only show classes that are direct neighbours of "known classes". Known classes are inferred from ruby files under `Rails.application.config.eager_load_paths`. Furthermore, all services are assumed be in the /app/services/folder. A "violation" is when there exists a receiver of a service class that is being called by a non-service class. There edges are shown in red in the resulting graph.
+
+Example:
+`app/controllers/users_controller.rb`:
 ```ruby
 ...
   def get_logger
@@ -11,7 +14,8 @@ DependencyGrapher is a tool for highlighting certain method calls in your Rails 
   end
 ...
 ```
-`user.rb`:
+
+`app/models/user.rb`:
 ```ruby
 ...
   def get_logger
@@ -19,6 +23,16 @@ DependencyGrapher is a tool for highlighting certain method calls in your Rails 
   end
 ...
 ```
+
+`app/services/get_logger.rb`:
+```ruby
+class GetLogger
+  def self.call
+    DepedencyGrapher::Logger.new
+  end
+end
+```
+
 `user_test.rb`:
 ```ruby
 class UserTest < ActiveSupport::TestCase
@@ -42,7 +56,7 @@ end
   end
 ```
 Sample output:
-![sample output](http://imgh.us/dependencies_1.svg)
+![sample output](http://imgh.us/dependencies_4.svg)
 
 
 ## Installation
@@ -52,6 +66,8 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'dependency_grapher'
 ```
+
+And run `bundle install`.
 
 ## Usage
 In your test helpers file `test/test_helper`, include `DependencyGrapher::TestHelpers` to your tests as shown below:
@@ -67,10 +83,9 @@ class ActiveSupport::TestCase
   fixtures :all
 end
 ```
-Run `rake test` to run your tests. DependencyGrapher will log all method calls in your tests to produce `dependencies.yml`, which it will use to produce graphs.
+DependencyGrapher requires you first to run your unit tests to produce set of dependencies (outputted to your project folder as dependencies.yml). The parts of your system that are not touched by the tests will not be shown in the graph. 
 
-`rake dep:graph` to produce a svg graph.
-
+After the tests have complete, run `rake dep:graph` to produce a svg graph. You may specify the name format of the graph output by using `rake dep:graph[name.format]`. For example, `rake dep:graph[graph.dot]` produces a DOT file of the graph. Acceptable formats can be found on the [GraphViz site](http://www.graphviz.org/doc/info/output.html).
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/dependency_grapher. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.

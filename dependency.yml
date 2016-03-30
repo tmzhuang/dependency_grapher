@@ -1,0 +1,13 @@
+--- !ruby/object:DependencyGrapher::Dependency
+caller: !ruby/object:DependencyGrapher::Method
+  defined_class: Module1::Class1
+  method_id: the_method_1
+  types: !ruby/object:Set
+    hash: {}
+receiver: !ruby/object:DependencyGrapher::Method
+  defined_class: Class2
+  method_id: the_method_2
+  types: !ruby/object:Set
+    hash: {}
+flags: !ruby/object:Set
+  hash: {}

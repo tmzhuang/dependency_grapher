@@ -6,67 +6,77 @@ module DependencyGrapher
     def initialize(dependencies)
       @dependencies = dependencies
       generate_graph_from_dependencies
-      @graph.output(svg: "dependencies.svg")
     end
 
-    def output(format = {png: "dependencies.png"})
+    def output(format)
+      @graph.output(format)
     end
 
     def generate_graph_from_dependencies
       # Initialize a directional graph
-      @graph = GraphViz.digraph( :G, type: :digraph)
+      @graph = GraphViz.digraph( :G, type: :digraph, tooltip: " ")
 
       # Iterate through dependency set to get edges and methods
       @dependencies.each do |dependency|
         # Methods from the dependencies
-        caller = dependency.caller
+        kaller = dependency.kaller
         receiver = dependency.receiver
         # Add edges to set
-        #@graph.add_edges(caller.method_id, receiver.method_id, color: :red)
-        add_node(caller)
+        #@graph.add_edges(kaller.method_id, receiver.method_id, color: :red)
+        add_node(kaller)
         add_node(receiver)
-        if dependency.flags.include?(:violation)
-          add_edge(caller, receiver, :red)
-        else
-          add_edge(caller, receiver, :dimgrey)
-        end
+        add_edge(dependency)
       end
     end
 
-    def add_edge(caller, receiver, color)
-      @graph.add_edges(caller.full_method_id, receiver.full_method_id, color: color)
+    def add_edge(dependency)
+      options =  {}
+      normal_color = get_normal_color(dependency.count)
+      options[:color] = dependency.flags.include?(:violation) ? :red : normal_color
+      options[:label] = dependency.count > 1 ? dependency.count : ""
+      @graph.add_edges(dependency.kaller.full_id, dependency.receiver.full_id, options)
+    end
+
+    def get_normal_color(count)
+      code = 80 - count * 5
+      binding.pry if code < 0
+      code = 0 if code < 0
+      "gray#{code}"
     end
 
     # Add a method to the structure of stored graph. Defined classes are stored
     # as clusters (subgraphs) and method id is used to identify the node
     def add_node(method)
-      cluster_options = {} 
+      graph = create_clusters(method)
+      # Node
+      options = {}
+      options[:label] = method.method_id
+      options[:tooltip] = method.full_path
+      graph.add_nodes(method.full_id, options)
+    end
+
+    def create_clusters(method)
+      cluster_options = {tooltip: " "}
       if method.types.include?(:service)
         cluster_options[:bgcolor] = :azure3
       elsif method.types.include?(:framework)
         cluster_options[:bgcolor] = :brown
       end
-      #binding.pry if method.root == "DependencyGrapher" && method.method_id == "initialize"
+
       # Iterate over ancestors (eg. Minitest::Unit yields Minitest, # Unit)
       # This variable is used to reference the immediate parent of the 
       # current graph. Initializes to the root; updates on each iteration.
       prev_graph = @graph 
       method.ancestors.each_with_index do |klass, i|
+        # Prepending "cluster_" is mandatory according to ruby-graphviz API
         graph_id = "cluster_" + method.ancestors[0..i].join("_")
-        # Try to find the subgraph if it exists
-        #if subgraph = prev_graph.get_graph(graph_id)
-          #subgraph.options(cluster_options)
-        #else
-          ## Otherwise we create and label it
-          subgraph = prev_graph.add_graph(graph_id, cluster_options)
-          subgraph[:label] = klass
-        #end
-        # Update parent
+        # add_graph returns an existing graph if it exists
+        subgraph = prev_graph.add_graph(graph_id, cluster_options)
+        subgraph[:label] = klass
+        # Update parent for next iteration
         prev_graph = subgraph
       end
-      options = {}
-      options[:label] = method.method_id
-      prev_graph.add_nodes(method.full_method_id, options)
+      prev_graph
     end
   end
 end
