@@ -9,16 +9,17 @@ module DependencyGrapher
 
     def filter
       tmp_deps = Set.new
+      receiver = {}
 
       # Crawl ActiveSupport::Dependencies.autoload_paths for known classes
       known_classes = GetKnownClasses.call
 
       @dependencies.each_with_index do |dep, i|
-        kaller = dep.caller
+        kaller = dep.kaller
         receiver = dep.receiver
         # all pass_conds must be true for dependency to be added to calculated_dependencies
         pass_conds = true
-        pass_conds &&= kaller.full_method_id != receiver.full_method_id
+        pass_conds &&= kaller.full_id != receiver.full_id
         pass_conds &&= (known_classes.include?(kaller.root) || known_classes.include?(receiver.root))
         tmp_deps << dep if pass_conds
       end

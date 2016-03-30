@@ -4,17 +4,30 @@ require_relative 'serialize_helpers'
 
 module DependencyGrapher
   class Method
-    attr_reader :defined_class, :method_id
-    attr_accessor :types
     include DependencyGrapher::SerializeHelpers
+
     Limit = 50
 
-    def initialize(defined_class, method_id)
-      # Truncate class name to limit characters if too lon
+    attr_reader :defined_class, :method_id, :path, :lineno
+    attr_accessor :types
+
+    def initialize(defined_class, method_id, path, lineno, anon)
+      # Truncate class name to limit characters if too long
       defined_class = defined_class[0,Limit] + "..." if defined_class.length > Limit
       @defined_class = defined_class
       @method_id = method_id
+      @path = path
+      @lineno = lineno
+      @anon = anon
       @types = Set.new
+    end
+
+    def full_path
+      @path + ":" + @lineno
+    end
+
+    def anonymous?
+      @anon
     end
 
     def ancestors
@@ -30,7 +43,7 @@ module DependencyGrapher
       ancestors.last
     end
 
-    def full_method_id
+    def full_id
       @defined_class + @method_id
     end
   end

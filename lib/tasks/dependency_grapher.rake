@@ -1,17 +1,22 @@
 namespace :dep do
   desc 'Outputs dependencies to graph given format. Defaults to dot.'
-  task :graph, :name, :format do |t, args|
-    format = args[:format] || :dot
-    name = args[:name] || "dependencies"
-    #dependencies = @@dependency_logger.dependencies
-    # Pass logged dependencies to filter
+  task :graph, [:name] do |t, args|
+    name = args[:name] || "dependencies.svg"
+
+    format = name[/^.*\.(\w*)$/, 1].to_sym
+    
+    # Remove Rails classes, self-calls, and inter-class calls
     filter = DependencyGrapher::Filter.new
     filter.load_file
     filter.filter
+
+    # Tag methods in dependcies as
     analyzer = DependencyGrapher::Analyzer.new(filter.dependencies)
-    analyzer.set_frameworks
-    analyzer.set_violations
+    analyzer.set_method_types
+    analyzer.set_dependency_flags
+
     grapher = DependencyGrapher::Grapher.new(analyzer.dependencies)
+    grapher.output(format => name)
     #grapher.output
     ## Pass filtered dependnecies to dot generator (creates dot file on initialization)
     #DependencyGrapher::Grapher.new(filtered_dependencies)
