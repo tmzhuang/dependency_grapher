@@ -9,25 +9,22 @@ module DependencyGrapher
     Limit = 50
 
     attr_reader :defined_class, :method_id, :path, :lineno
+
+    # TODO Fix LOD violation (types should not be directly exposed)
     attr_accessor :types
 
-    def initialize(defined_class, method_id, path, lineno, anon)
+    def initialize(defined_class, method_id, path, lineno)
       # Truncate class name to limit characters if too long
       defined_class = defined_class[0,Limit] + "..." if defined_class.length > Limit
       @defined_class = defined_class
       @method_id = method_id
       @path = path
       @lineno = lineno
-      @anon = anon
       @types = Set.new
     end
 
     def full_path
       @path + ":" + @lineno
-    end
-
-    def anonymous?
-      @anon
     end
 
     def ancestors
@@ -43,7 +40,7 @@ module DependencyGrapher
       ancestors.last
     end
 
-    def full_id
+    def id
       @defined_class + @method_id
     end
   end

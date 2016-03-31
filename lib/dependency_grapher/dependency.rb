@@ -5,6 +5,7 @@ module DependencyGrapher
   class Dependency
     include DependencyGrapher::SerializeHelpers
     attr_reader :kaller, :receiver, :count
+    # TODO Fix LOD violation (flag should not be directly exposed)
     attr_accessor :flags
 
     def initialize(kaller, receiver)
@@ -14,8 +15,8 @@ module DependencyGrapher
       @count = 1
     end
 
-    def full_id
-      @kaller.full_id + @receiver.full_id
+    def id
+      @kaller.id + @receiver.id
     end
 
     def touch

@@ -1,5 +1,4 @@
-namespace :dep do
-  desc 'Outputs dependencies to graph given format. Defaults to dot.'
+namespace :dep do desc 'Produces a graph output from dependencies.yml (outputs to dependencies.yml by default)'
   task :graph, [:name] do |t, args|
     name = args[:name] || "dependencies.svg"
 
@@ -17,9 +16,6 @@ namespace :dep do
 
     grapher = DependencyGrapher::Grapher.new(analyzer.dependencies)
     grapher.output(format => name)
-    #grapher.output
-    ## Pass filtered dependnecies to dot generator (creates dot file on initialization)
-    #DependencyGrapher::Grapher.new(filtered_dependencies)
   end
 
   namespace :list do

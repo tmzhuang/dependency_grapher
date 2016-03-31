@@ -2,7 +2,7 @@ module DependencyGrapher
   module ParseClass
     module_function
     def call(klass)
-      klass.anonymous? ? parse_anon_class_name(klass.inspect) : klass.inspect
+      anon_class_pattern?(klass.inspect) ? parse_anon_class_name(klass.inspect) : klass.inspect
     end
 
     private_class_method
