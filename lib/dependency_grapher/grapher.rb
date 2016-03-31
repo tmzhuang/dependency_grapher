@@ -34,7 +34,7 @@ module DependencyGrapher
       normal_color = get_normal_color(dependency.count)
       options[:color] = dependency.flags.include?(:violation) ? :red : normal_color
       options[:label] = dependency.count > 1 ? dependency.count : ""
-      @graph.add_edges(dependency.kaller.full_id, dependency.receiver.full_id, options)
+      @graph.add_edges(dependency.kaller.id, dependency.receiver.id, options)
     end
 
     def get_normal_color(count)
@@ -52,7 +52,7 @@ module DependencyGrapher
       options = {}
       options[:label] = method.method_id
       options[:tooltip] = method.full_path
-      graph.add_nodes(method.full_id, options)
+      graph.add_nodes(method.id, options)
     end
 
     def create_clusters(method)

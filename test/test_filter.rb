@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FilterTest < Minitest::Test
+class TestFilter < Minitest::Test
   def setup
   end
 

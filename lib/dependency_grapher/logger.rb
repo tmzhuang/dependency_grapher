@@ -22,8 +22,8 @@ module DependencyGrapher
       @trace.disable
     end
 
-    def dump
-      file = File.open("dependencies.yml", "w")
+    def dump(filename = "dependencies.yml")
+      file = File.open(filename, "w")
       @keys.each do |key|
         file.puts @dependencies[key].serialize
         file.puts
@@ -35,8 +35,8 @@ module DependencyGrapher
       # Define a tracepoint for tacking ruby calls and returns
       tp = TracePoint.trace(:call, :return) do |tp|
         case tp.event
-        when :call
-          handle_call(tp.defined_class, tp.method_id, tp.path, tp.lineno, tp.defined_class.anonymous?)
+        when :call 
+          handle_call(tp.defined_class, tp.method_id, tp.path, tp.lineno)
         when :return
           handle_return
         end
@@ -45,10 +45,10 @@ module DependencyGrapher
       tp
     end
 
-    def handle_call(defined_class, method_id, path, lineno, anon)
-      method = Method.new(ParseClass.call(defined_class), method_id.to_s, path, lineno.to_s, anon) 
-      @methods[method.full_id] = method unless  @methods[method.full_id]
-      @call_stack <<  @methods[method.full_id]
+    def handle_call(defined_class, method_id, path, lineno)
+      method = Method.new(ParseClass.call(defined_class), method_id.to_s, path, lineno.to_s) 
+      @methods[method.id] = method unless  @methods[method.id]
+      @call_stack <<  @methods[method.id]
     end
 
     def handle_return
@@ -57,7 +57,7 @@ module DependencyGrapher
       # Ignore case where kaller is nil (ie. main)
       if kaller
         dep = Dependency.new(kaller, receiver)
-        key = dep.full_id
+        key = dep.id
         if @keys.include?(key)
           @dependencies[key].touch
         else

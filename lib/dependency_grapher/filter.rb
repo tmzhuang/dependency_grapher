@@ -1,4 +1,5 @@
 require 'set'
+require_relative 'deserialize_dependencies'
 
 module DependencyGrapher
   class Filter
@@ -19,7 +20,7 @@ module DependencyGrapher
         receiver = dep.receiver
         # all pass_conds must be true for dependency to be added to calculated_dependencies
         pass_conds = true
-        pass_conds &&= kaller.full_id != receiver.full_id
+        pass_conds &&= kaller.id != receiver.id
         pass_conds &&= (known_classes.include?(kaller.root) || known_classes.include?(receiver.root))
         tmp_deps << dep if pass_conds
       end
@@ -27,12 +28,12 @@ module DependencyGrapher
       @dependencies = tmp_deps
     end
 
-    def load_file(yaml_file = "dependencies.yml")
-      @dependencies = Set.new
-      $/="\n\n"
-      File.open(yaml_file, "r").each do |object|
-        @dependencies << Dependency.deserialize(object)
-      end
+    def load_file(filename = "dependencies.yml")
+      @dependencies = DeserializeDependencies.call(filename)
+    end
+
+    def load_dependencies(dependencies)
+      @dependencies = dependencies
     end
   end
 end
