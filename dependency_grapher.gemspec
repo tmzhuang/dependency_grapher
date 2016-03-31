@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["tianming.zhuang@gmail.com"]
 
   spec.summary       = %q{Graphical vizualization of Ruby application dependencies.}
-  spec.description   = %q{For applications that use minitest as the automated test framework. This gem provides a class for logging the dependencies of the application while the test runs, and another for analyzing those dependencies and producing a graph.}
+  spec.description   = %q{For Rails applications that use minitest as the automated test framework. Logs dependencies during unit tests and then produces a call graph from those dependencies.}
   spec.homepage      = "https://github.com/tmzhuang/dependency_grapher"
   spec.license       = "MIT"
 
