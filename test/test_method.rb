@@ -6,7 +6,6 @@ class TestMethod < Minitest::Test
     @method_id_1 = "the_method_1"
     @path_1 = "/the/path/to/file_1.rb"
     @lineno = "123"
-    
 
     @defined_class_2 = "Class2"
     @method_id_2 = "the_method_2"
